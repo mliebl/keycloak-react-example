@@ -1,25 +1,35 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Keycloak from "keycloak-js"
+import decode from 'jwt-decode'
 
 const Config = {
-    url: 'http://libellosnas:8088/auth', 
-    realm: 'web-clients', 
-    clientId: 'react-client', 
+    url: 'http://libellosnas:8088/auth',
+    realm: 'web-clients',
+    clientId: 'react-client',
     onLoad: 'login-required'
 }
 
 class KeycloakLogin extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = { keycloak: null, authenticated: false };
+    }
+
     componentDidMount() {
         const keycloak = Keycloak(Config);
-        keycloak.init({onLoad: "login-required", promiseType: 'native'}).then(authentication => {
-            console.log(authentication);
+        keycloak.init({ onLoad: "login-required", promiseType: 'native' }).then(authenticated => {
+            this.setState({ keycloak: keycloak, authenticated: authenticated })
         });
     }
 
     render() {
-    
-        return <div>Ready to initialize</div>
+        if (this.state.keycloak && this.state.authenticated) {
+            var jwt = JSON.stringify(decode(this.state.keycloak.token));
+            return <div>{jwt}</div>
+        } else {
+            return <div>Ready to initialize</div>
+        }
     }
 
 }
