@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Keycloak from "keycloak-js"
 import decode from 'jwt-decode'
+import JSONPretty from 'react-json-pretty'
 
 const Config = {
     url: 'http://libellosnas:8088/auth',
@@ -26,7 +27,7 @@ class KeycloakLogin extends Component {
     render() {
         if (this.state.keycloak && this.state.authenticated) {
             var jwt = JSON.stringify(decode(this.state.keycloak.token));
-            return <div>{jwt}</div>
+            return <JSONPretty id="json-pretty" data={jwt}></JSONPretty>
         } else {
             return <div>Ready to initialize</div>
         }
