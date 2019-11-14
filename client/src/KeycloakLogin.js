@@ -4,7 +4,7 @@ import decode from 'jwt-decode'
 import JSONPretty from 'react-json-pretty'
 
 const Config = {
-    url: 'http://libellosnas:8088/auth',
+    url: 'http://localhost:8088/auth',
     realm: 'web-clients',
     clientId: 'react-client',
     onLoad: 'login-required'
